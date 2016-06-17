@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.youknowit.partytime.kitchenassistant.MainActivityFragment"
+    tools:showIn="@layout/activity_main">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/numToSelect" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Search"
+        android:id="@+id/sendMessage"
+        android:onClick="sendMessage"
+        android:layout_below="@+id/numToSelect"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:id="@+id/nameTitle"
+        android:layout_below="@+id/sendMessage"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/name"
+        android:layout_below="@+id/nameTitle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capacity"
+        android:id="@+id/capacityTitle"
+        android:layout_below="@+id/name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/capacity"
+        android:layout_below="@+id/capacityTitle"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/commit"
+        android:onClick="pushIt"
+        android:layout_below="@+id/capacity"
+        android:text="Commit"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view"
+        android:onClick="pushIt"
+        android:layout_below="@+id/commit"
+        android:text="View Ingredients"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="output"
+        android:id="@+id/output"
+        android:layout_below="@+id/view"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteInput"
+        android:layout_below="@+id/output"
+        android:inputType="number" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="pushIt"
+        android:id="@+id/delete"
+        android:text="Delete"
+        android:layout_below="@+id/deleteInput"/>
+</RelativeLayout>
