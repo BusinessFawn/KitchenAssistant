@@ -18,8 +18,7 @@ import java.util.List;
 public class DisplayIngredients extends AppCompatActivity //implements AdapterView.OnItemClickListener
  {
 
-    private ListView itemList;
-     private String[] ingredientNames;
+     Ingredient separateIngredients = new Ingredient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,36 +29,28 @@ public class DisplayIngredients extends AppCompatActivity //implements AdapterVi
         DBHandlerNew intentHandler = new DBHandlerNew(this);
         //TextView textView = (TextView) findViewById(R.id.singleItem);
         String allIngredients = "";
-        itemList = (ListView) findViewById(R.id.ingredientList);
-        //itemList.setOnItemClickListener(this);
+        ListView itemList = (ListView) findViewById(R.id.ingredientList);
+        //itemList.setOnItemClickListener();
 
 
         Intent intent = getIntent();
-        //int i = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_MESSAGE));
         String i = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        List<Ingredient> ingredients = new ArrayList<>(intentHandler.getLikeIngredientName(i));
-        for (int j = 0; j < ingredients.size(); j++) {
-        }
-        //for (Ingredient ingredient : ingredients) {
-        //    allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + " ,Name: " + ingredient.getIngredientName() + " ,Capacity: " + ingredient.getIngredientCapacity() + "\n";
-        //}
-        //textView.setText(allIngredients);
+        ArrayList<Ingredient> ingredients = new ArrayList<>(intentHandler.getLikeIngredientName(i));
 
-        ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(
+        ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<Ingredient>(
                 this,
-                android.R.layout.activity_list_item,
+                android.R.layout.simple_list_item_1,
                 ingredients);
         itemList.setAdapter(arrayAdapter);
-        //Ingredient ingredient = new Ingredient();
-        //ingredient = intentHandler.getIngredient(i);
-        //textView.setText("Name: " + ingredient.getIngredientName() + " capacity: " + ingredient.getIngredientCapacity());
     }
 
-    //public void onItemClick(AdapterView<?> l, View v, int id, long other) {
-     //Intent intent = new Intent();
-     //   intent.setClass(this, IngredientDetail.class);
-     //   intent.putExtra("id", id);
-     //   startActivity(intent);
-    //}
+    public void onItemClick(AdapterView<?> l, View v, int id, long other) {
+     Intent intent = new Intent();
+        intent.setClass(this, IngredientDetail.class);
+        id = separateIngredients.getIngredientId();
+        System.out.println(id);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
 
 }

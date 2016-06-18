@@ -16,6 +16,10 @@ public class Ingredient {
         this.ingredientName=ingredientName;
         this.ingredientCapacity=ingredientCapacity;
     }
+    @Override
+    public String toString() {
+        return ingredientName + " with a capacity of " + ingredientCapacity;
+    }
     public void setIngredientId(int ingredientId) {
         this.ingredientId = ingredientId;
     }
