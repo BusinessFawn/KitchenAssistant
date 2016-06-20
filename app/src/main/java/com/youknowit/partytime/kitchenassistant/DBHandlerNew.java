@@ -16,22 +16,52 @@ public class DBHandlerNew extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     // Database Name
     private static final String DATABASE_NAME = "kitchenAssistant";
-    // Contacts table name
+    // Ingredients table name
     private static final String TABLE_INGREDIENTS = "ingredients";
-    // Ingredients Table Columns names
+    // Recipe table name
+    private static final String TABLE_RECIPE = "recipe";
+    // Recipes to Ingredients table name
+    private static final String TABLE_RECIPE_TO_INGREDIENT = "recipeToIngredient";
+
+    // Ingredients Table Column names
     private static final String INGREDIENT_ID = "id";
     private static final String INGREDIENT_NAME = "name";
     private static final String INGREDIENT_CAPACITY = "capacity";
+
+    //Recipe Table Column names
+    private static final String RECIPE_ID = "recipeId";
+    private static final String RECIPE_NAME = "recipeName";
+    private static final String RECIPE_LAST_MADE = "recipeLastMade";
+    private static final String RECIPE_SERVINGS_MADE = "recipeServingsMade";
+
+    //Recipe to Ingredient Table Column names
+    private static final String R2I_ID = "r2iId";
+    private static final String R2I_INGREDIENT_ID = "r2iIngredientId";
+    private static final String R2I_RECIPE_ID = "r2iRecipeId";
+    private static final String R2I_INGREDIENT_CAPCITY_USED = "r2iIngredientUsed";
+
 
     public DBHandlerNew(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        //Create Ingredient Table
         String CREATE_INGREDIENT_TABLE = "CREATE TABLE " + TABLE_INGREDIENTS + "("
                 + INGREDIENT_ID + " INTEGER PRIMARY KEY," + INGREDIENT_NAME + " TEXT,"
                 + INGREDIENT_CAPACITY + " TEXT" + ")";
         db.execSQL(CREATE_INGREDIENT_TABLE);
+        //Create Recipe Table
+        String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "("
+                + RECIPE_ID + " INTEGER PRIMARY KEY, " + RECIPE_NAME + " TEXT,"
+                + RECIPE_LAST_MADE + " DATE," + RECIPE_SERVINGS_MADE + " INTEGER" + ")";
+        db.execSQL(CREATE_RECIPE_TABLE);
+        //Create Recipe to Ingredient Table
+        String CREATE_I2R_TABLE = "CREATE TABLE " + TABLE_RECIPE_TO_INGREDIENT + "("
+                + R2I_ID + " INTEGER PRIMARY KEY," + R2I_RECIPE_ID + " INTEGER,"
+                + R2I_INGREDIENT_ID + " INTEGER," + R2I_INGREDIENT_CAPCITY_USED + " INTEGER" + ")";
+        db.execSQL(CREATE_I2R_TABLE);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
