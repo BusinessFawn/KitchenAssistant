@@ -78,7 +78,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         values.put(INGREDIENT_NAME, ingredient.getIngredientName()); // Ingredient Name
         values.put(INGREDIENT_CAPACITY, ingredient.getIngredientCapacity()); // Ingredient Capacity
 
-// Inserting Row
+// Inserting Row into
         db.insert(TABLE_INGREDIENTS, null, values);
         db.close(); // Closing database connection
     }
