@@ -27,9 +27,13 @@ public class IngredientDetail extends AppCompatActivity {
             }
         });
 
+        DBHandlerNew dbHandlerNew = new DBHandlerNew(this);
+
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
         TextView ingredientTitle = (TextView) findViewById(R.id.ingredientTitle);
+        Ingredient thisIngredient = dbHandlerNew.getIngredient(id);
+        ingredientTitle.setText(thisIngredient.toString());
 
     }
 

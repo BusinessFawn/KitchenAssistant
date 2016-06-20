@@ -15,10 +15,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplayIngredients extends AppCompatActivity //implements AdapterView.OnItemClickListener
+public class DisplayIngredients extends AppCompatActivity implements AdapterView.OnItemClickListener
  {
 
      Ingredient separateIngredients = new Ingredient();
+     ArrayList<Ingredient> ingredients = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,16 @@ public class DisplayIngredients extends AppCompatActivity //implements AdapterVi
         //TextView textView = (TextView) findViewById(R.id.singleItem);
         String allIngredients = "";
         ListView itemList = (ListView) findViewById(R.id.ingredientList);
-        //itemList.setOnItemClickListener();
+        itemList.setOnItemClickListener(this);
 
 
         Intent intent = getIntent();
-        String i = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        ArrayList<Ingredient> ingredients = new ArrayList<>(intentHandler.getLikeIngredientName(i));
+        String s = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        ArrayList<Ingredient> tempIngredients = new ArrayList<>(intentHandler.getLikeIngredientName(s));
+
+        for (int i = 0; i < tempIngredients.size(); i++) {
+            ingredients.add(i,tempIngredients.get(i));
+        }
 
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<Ingredient>(
                 this,
@@ -44,11 +49,13 @@ public class DisplayIngredients extends AppCompatActivity //implements AdapterVi
         itemList.setAdapter(arrayAdapter);
     }
 
-    public void onItemClick(AdapterView<?> l, View v, int id, long other) {
+    public void onItemClick(AdapterView<?> l, View v, int id, long position) {
      Intent intent = new Intent();
         intent.setClass(this, IngredientDetail.class);
-        id = separateIngredients.getIngredientId();
         System.out.println(id);
+        separateIngredients = ingredients.get(id);
+        System.out.println(separateIngredients);
+        int passingID = separateIngredients.getIngredientId();
         intent.putExtra("id", id);
         startActivity(intent);
     }
