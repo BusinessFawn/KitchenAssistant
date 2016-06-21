@@ -7,9 +7,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class IngredientDetail extends AppCompatActivity {
+
+    private Ingredient thisIngredient = new Ingredient();
+    Button commitDecrement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +29,8 @@ public class IngredientDetail extends AppCompatActivity {
         Intent intent = getIntent();
         int id = intent.getIntExtra("id", 0);
         TextView ingredientTitle = (TextView) findViewById(R.id.ingredientTitle);
-        Ingredient thisIngredient = dbHandlerNew.getIngredient(id);
-        ingredientTitle.setText(thisIngredient.toString());
+        thisIngredient = dbHandlerNew.getIngredient(id);
+        ingredientTitle.setText(thisIngredient.getIngredientName());
 
     }
 
