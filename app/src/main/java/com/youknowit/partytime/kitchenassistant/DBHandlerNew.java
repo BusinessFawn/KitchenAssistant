@@ -82,6 +82,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         db.insert(TABLE_INGREDIENTS, null, values);
         db.close(); // Closing database connection
     }
+
     // Getting one ingredient
     public Ingredient getIngredient(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
