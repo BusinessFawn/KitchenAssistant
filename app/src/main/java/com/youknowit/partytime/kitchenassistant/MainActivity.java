@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView output = (TextView) findViewById(R.id.output);
         final EditText ingredientName = (EditText) findViewById(R.id.name);
         final EditText ingredientCapacity = (EditText) findViewById(R.id.capacity);
+        final EditText ingredientType = (EditText) findViewById(R.id.type);
         final EditText ingredientDelete = (EditText) findViewById(R.id.deleteInput);
         DBHandlerNew dbIngredient = new DBHandlerNew(this);
         Ingredient negotiateIngredient = new Ingredient();
@@ -81,19 +82,20 @@ public class MainActivity extends AppCompatActivity {
                 //DBHandlerNew dbIngredient = new DBHandlerNew(this);
                 List<Ingredient> ingredients = dbIngredient.getAllIngredients();
                 for (Ingredient ingredient : ingredients) {
-                    allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + " ,Name: " + ingredient.getIngredientName() + " ,Capacity: " + ingredient.getIngredientCapacity();
+                    allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + " ,Name: " + ingredient.getIngredientName() + " ,Capacity: " + ingredient.getIngredientCapacity() + " ,Type: " + ingredient.getIngredientTypeString();
                 }
                 output.setText(allIngredients);
                 break;
             case R.id.commit:
 
                 String nameOfIngredient = ingredientName.getText().toString();
-                String capacityOfIngredient = ingredientCapacity.getText().toString();
+                int capacityOfIngredient = Integer.parseInt(ingredientCapacity.getText().toString());
+                int typeOfIngredient = Integer.parseInt(ingredientType.getText().toString());
 
-                if (nameOfIngredient.equals("") || capacityOfIngredient.equals("")) {
-                    output.setText("Input is required");
+                if (nameOfIngredient.equals("") || typeOfIngredient < 0 || typeOfIngredient > 3) {
+                    output.setText("Input is required, type must be a number between 0 and 3");
                 } else {
-                    dbIngredient.addIngredient(new Ingredient(0, nameOfIngredient, capacityOfIngredient));
+                    dbIngredient.addIngredient(new Ingredient(0, nameOfIngredient, capacityOfIngredient, typeOfIngredient));
                 }
                 break;
             case R.id.delete:
@@ -103,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     int i = Integer.parseInt(ingredientDelete.getText().toString());
-                    dbIngredient.deleteIngredient(dbIngredient.getIngredient(i));
+                    //dbIngredient.deleteIngredient(dbIngredient.getIngredient(i));
+                    dbIngredient.dropDB();
+                    dbIngredient.onCreate(dbIngredient.getWritableDatabase());
                     break;
 
                 }

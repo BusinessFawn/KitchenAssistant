@@ -45,13 +45,29 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/capacity"
-        android:layout_below="@+id/capacityTitle"/>
+        android:layout_below="@+id/capacityTitle"
+        android:inputType="number"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type"
+        android:id="@+id/typeTitle"
+        android:layout_below="@+id/capacity"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/type"
+        android:layout_below="@+id/typeTitle"
+        android:inputType="number" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/commit"
         android:onClick="pushIt"
-        android:layout_below="@+id/capacity"
+        android:layout_below="@+id/type"
         android:text="Commit"/>
     <Button
         android:layout_width="match_parent"

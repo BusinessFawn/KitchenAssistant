@@ -27,6 +27,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
     private static final String INGREDIENT_ID = "id";
     private static final String INGREDIENT_NAME = "name";
     private static final String INGREDIENT_CAPACITY = "capacity";
+    private static final String INGREDIENT_TYPE = "type";
 
     //Recipe Table Column names
     private static final String RECIPE_ID = "recipeId";
@@ -38,7 +39,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
     private static final String R2I_ID = "r2iId";
     private static final String R2I_INGREDIENT_ID = "r2iIngredientId";
     private static final String R2I_RECIPE_ID = "r2iRecipeId";
-    private static final String R2I_INGREDIENT_CAPCITY_USED = "r2iIngredientUsed";
+    private static final String R2I_INGREDIENT_CAPACITY_USED = "r2iIngredientUsed";
 
 
     public DBHandlerNew(Context context) {
@@ -50,7 +51,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         //Create Ingredient Table
         String CREATE_INGREDIENT_TABLE = "CREATE TABLE " + TABLE_INGREDIENTS + "("
                 + INGREDIENT_ID + " INTEGER PRIMARY KEY," + INGREDIENT_NAME + " TEXT,"
-                + INGREDIENT_CAPACITY + " TEXT" + ")";
+                + INGREDIENT_CAPACITY + " INTEGER DEFAULT 0," + INGREDIENT_TYPE + " INTEGER DEFAULT 0" + ")";
         db.execSQL(CREATE_INGREDIENT_TABLE);
         //Create Recipe Table
         String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "("
@@ -60,7 +61,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         //Create Recipe to Ingredient Table
         String CREATE_I2R_TABLE = "CREATE TABLE " + TABLE_RECIPE_TO_INGREDIENT + "("
                 + R2I_ID + " INTEGER PRIMARY KEY," + R2I_RECIPE_ID + " INTEGER,"
-                + R2I_INGREDIENT_ID + " INTEGER," + R2I_INGREDIENT_CAPCITY_USED + " INTEGER" + ")";
+                + R2I_INGREDIENT_ID + " INTEGER," + R2I_INGREDIENT_CAPACITY_USED + " INTEGER" + ")";
         db.execSQL(CREATE_I2R_TABLE);
     }
     @Override
@@ -70,6 +71,15 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 // Creating tables again
         onCreate(db);
     }
+
+    public void dropDB() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE " + TABLE_INGREDIENTS);
+        db.execSQL("DROP TABLE " + TABLE_RECIPE);
+        db.execSQL("DROP TABLE " + TABLE_RECIPE_TO_INGREDIENT);
+    }
+
+
     // Adding new ingredient
     public void addIngredient(Ingredient ingredient) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -77,6 +87,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(INGREDIENT_NAME, ingredient.getIngredientName()); // Ingredient Name
         values.put(INGREDIENT_CAPACITY, ingredient.getIngredientCapacity()); // Ingredient Capacity
+        values.put(INGREDIENT_TYPE, ingredient.getIngredientType()); //Ingredient type
 
 // Inserting Row into
         db.insert(TABLE_INGREDIENTS, null, values);
@@ -93,10 +104,10 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Ingredient contact = new Ingredient(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+        Ingredient ingredientList = new Ingredient(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), Integer.parseInt(cursor.getString(2)), Integer.parseInt(cursor.getString(3)));
 // return ingredient
-        return contact;
+        return ingredientList;
     }
     // Getting All Ingredients
     public List<Ingredient> getAllIngredients() {
@@ -113,7 +124,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setIngredientId(Integer.parseInt(cursor.getString(0)));
                 ingredient.setIngredientName(cursor.getString(1));
-                ingredient.setIngredientCapacity(cursor.getString(2));
+                ingredient.setIngredientCapacity(Integer.parseInt(cursor.getString(2)));
+                ingredient.setIngredientType(Integer.parseInt(cursor.getString(3)));
 // Adding contact to list
                 ingredientList.add(ingredient);
             } while (cursor.moveToNext());
@@ -139,7 +151,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setIngredientId(Integer.parseInt(cursor.getString(0)));
                 ingredient.setIngredientName(cursor.getString(1));
-                ingredient.setIngredientCapacity(cursor.getString(2));
+                ingredient.setIngredientCapacity(Integer.parseInt(cursor.getString(2)));
+                ingredient.setIngredientType(Integer.parseInt(cursor.getString(3)));
 // Adding contact to list
                 ingredientList.add(ingredient);
             } while (cursor.moveToNext());
@@ -165,6 +178,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(INGREDIENT_NAME, ingredient.getIngredientName());
         values.put(INGREDIENT_CAPACITY, ingredient.getIngredientCapacity());
+        values.put(INGREDIENT_TYPE, ingredient.getIngredientType());
 
 // updating row
         return db.update(TABLE_INGREDIENTS, values, INGREDIENT_ID + " = ?",

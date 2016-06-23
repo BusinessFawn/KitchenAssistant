@@ -28,8 +28,6 @@ public class DisplayIngredients extends AppCompatActivity implements AdapterView
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DBHandlerNew intentHandler = new DBHandlerNew(this);
-        //TextView textView = (TextView) findViewById(R.id.singleItem);
-        String allIngredients = "";
         ListView itemList = (ListView) findViewById(R.id.ingredientList);
         itemList.setOnItemClickListener(this);
 
@@ -42,7 +40,7 @@ public class DisplayIngredients extends AppCompatActivity implements AdapterView
             ingredients.add(i,tempIngredients.get(i));
         }
 
-        ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<Ingredient>(
+        ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 ingredients);
@@ -56,7 +54,7 @@ public class DisplayIngredients extends AppCompatActivity implements AdapterView
         separateIngredients = ingredients.get(id);
         System.out.println(separateIngredients);
         int passingID = separateIngredients.getIngredientId();
-        intent.putExtra("id", id);
+        intent.putExtra("id", passingID);
         startActivity(intent);
     }
 
