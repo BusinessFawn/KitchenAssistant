@@ -18,19 +18,21 @@ public class Ingredient {
         this.ingredientName=ingredientName;
         this.ingredientCapacity=ingredientCapacity;
         this.ingredientType=ingredientType;
-        switch (ingredientType) {
-            case 0:
-                ingredientTypeString = "Other";
-                break;
-            case 1:
-                ingredientTypeString = "Percent";
-                break;
-            case 2:
-                ingredientTypeString = "Ounces";
-                break;
-            case 3:
-                ingredientTypeString = "Grams";
-                break;
+
+        if (ingredientType == 0) {
+            ingredientTypeString = "Percent";
+        }
+        else if (ingredientType == 1) {
+            ingredientTypeString = "Ounces";
+        }
+        else if (ingredientType == 2) {
+            ingredientTypeString = "Grams";
+        }
+        else if (ingredientType == 3) {
+            ingredientTypeString = "Liters";
+        }
+        else {
+            ingredientTypeString = "Other";
         }
     }
     @Override

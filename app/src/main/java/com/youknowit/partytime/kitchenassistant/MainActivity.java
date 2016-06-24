@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                     int i = Integer.parseInt(ingredientDelete.getText().toString());
                     //dbIngredient.deleteIngredient(dbIngredient.getIngredient(i));
-                    dbIngredient.dropDB();
+                    //dbIngredient.dropDB();
                     dbIngredient.onCreate(dbIngredient.getWritableDatabase());
                     break;
 

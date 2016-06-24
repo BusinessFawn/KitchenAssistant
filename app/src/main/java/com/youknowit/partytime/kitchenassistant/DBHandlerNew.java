@@ -75,8 +75,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
     public void dropDB() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE " + TABLE_INGREDIENTS);
-        db.execSQL("DROP TABLE " + TABLE_RECIPE);
-        db.execSQL("DROP TABLE " + TABLE_RECIPE_TO_INGREDIENT);
+        //db.execSQL("DROP TABLE " + TABLE_RECIPE);
+        //db.execSQL("DROP TABLE " + TABLE_RECIPE_TO_INGREDIENT);
     }
 
 

@@ -37,6 +37,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/ingredientSpinner"
             android:layout_weight="2"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:id="@+id/commitIngredientChange"/>
     </LinearLayout>
 
 
