@@ -50,9 +50,7 @@ public class DisplayIngredients extends AppCompatActivity implements AdapterView
     public void onItemClick(AdapterView<?> l, View v, int id, long position) {
      Intent intent = new Intent();
         intent.setClass(this, IngredientDetail.class);
-        System.out.println(id);
         separateIngredients = ingredients.get(id);
-        System.out.println(separateIngredients);
         int passingID = separateIngredients.getIngredientId();
         intent.putExtra("id", passingID);
         startActivity(intent);
