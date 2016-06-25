@@ -18,22 +18,7 @@ public class Ingredient {
         this.ingredientName=ingredientName;
         this.ingredientCapacity=ingredientCapacity;
         this.ingredientType=ingredientType;
-
-        if (ingredientType == 0) {
-            ingredientTypeString = "Percent";
-        }
-        else if (ingredientType == 1) {
-            ingredientTypeString = "Ounces";
-        }
-        else if (ingredientType == 2) {
-            ingredientTypeString = "Grams";
-        }
-        else if (ingredientType == 3) {
-            ingredientTypeString = "Liters";
-        }
-        else {
-            ingredientTypeString = "Other";
-        }
+        setIngredientTypeString(ingredientType);
     }
     @Override
     public String toString() {
@@ -51,21 +36,28 @@ public class Ingredient {
     }
     public void setIngredientType(int ingredientType) {
         this.ingredientType=ingredientType;
-        switch (ingredientType) {
-            case 0:
-                ingredientTypeString = "other";
-                break;
-            case 1:
-                ingredientTypeString = "percent";
-                break;
-            case 2:
-                ingredientTypeString = "ounces";
-                break;
-            case 3:
-                ingredientTypeString = "grams";
-                break;
+        setIngredientTypeString(ingredientType);
+
+    }
+
+    public void setIngredientTypeString(int ingredientType) {
+        if (ingredientType == 0) {
+            ingredientTypeString = "Percent";
+        }
+        else if (ingredientType == 1) {
+            ingredientTypeString = "Ounces";
+        }
+        else if (ingredientType == 2) {
+            ingredientTypeString = "Grams";
+        }
+        else if (ingredientType == 3) {
+            ingredientTypeString = "Liters";
+        }
+        else {
+            ingredientTypeString = "Other";
         }
     }
+
     public int getIngredientId() {
         return ingredientId;
     }

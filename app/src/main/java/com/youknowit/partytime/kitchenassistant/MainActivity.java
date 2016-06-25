@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
-    public void pushIt(View v) {
+    public void pushIt(View view) {
         final TextView output = (TextView) findViewById(R.id.output);
         final EditText ingredientName = (EditText) findViewById(R.id.name);
         final EditText ingredientCapacity = (EditText) findViewById(R.id.capacity);
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         Ingredient negotiateIngredient = new Ingredient();
         String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRStUVWXYZ";
 
-        switch (v.getId()) {
+        switch (view.getId()) {
             case R.id.view:
                 String allIngredients = "";
                 //DBHandlerNew dbIngredient = new DBHandlerNew(this);
@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     int i = Integer.parseInt(ingredientDelete.getText().toString());
-                    //dbIngredient.deleteIngredient(dbIngredient.getIngredient(i));
+                    dbIngredient.deleteIngredient(dbIngredient.getIngredient(i));
                     //dbIngredient.dropDB();
-                    dbIngredient.onCreate(dbIngredient.getWritableDatabase());
+                    //dbIngredient.onCreate(dbIngredient.getWritableDatabase());
                     break;
 
                 }

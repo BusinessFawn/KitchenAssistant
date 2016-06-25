@@ -46,7 +46,6 @@ public class DisplayIngredients extends AppCompatActivity implements AdapterView
                 ingredients);
         itemList.setAdapter(arrayAdapter);
     }
-
     public void onItemClick(AdapterView<?> l, View v, int id, long position) {
      Intent intent = new Intent();
         intent.setClass(this, IngredientDetail.class);

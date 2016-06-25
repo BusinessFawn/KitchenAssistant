@@ -14,34 +14,64 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/ingredientTitle"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/ingredientTitle"
+        android:text="First Ingredient"
+        android:textAlignment="center"
+        android:paddingBottom="15dp"
+        android:layout_alignParentEnd="false"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
+        android:orientation="horizontal"
+        android:id="@+id/ingredientCapWrap"
+        android:layout_below="@+id/ingredientTitle">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/incrementIngredient"
+            android:text="@string/increment_button"
+            android:onClick="ingredientDetailEdit"/>
+        <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/currentAmount"
-            android:layout_weight="1"/>
-
-        <EditText
+            android:layout_weight="2"
+            android:inputType="number" />
+        <Button
             android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"/>
-
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/decrementIngredient"
+            android:text="@string/decrement_button"
+            android:onClick="ingredientDetailEdit"/>
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ingredientSpinner"
             android:layout_weight="2"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ingredientCapWrap">
         <Button
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:text="@string/save_button"
+            android:id="@+id/commitIngredientChange"
             android:layout_weight="1"
-            android:id="@+id/commitIngredientChange"/>
+            android:onClick="ingredientDetailEdit"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button"
+            android:id="@+id/commitIngredientCancel"
+            android:layout_weight="1"
+            android:onClick="ingredientDetailEdit"/>
     </LinearLayout>
 
 

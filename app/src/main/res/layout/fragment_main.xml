@@ -8,6 +8,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.youknowit.partytime.kitchenassistant.MainActivityFragment"
     tools:showIn="@layout/activity_main">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
     <EditText
         android:layout_width="match_parent"
@@ -95,4 +101,6 @@
         android:id="@+id/delete"
         android:text="Delete"
         android:layout_below="@+id/deleteInput"/>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
