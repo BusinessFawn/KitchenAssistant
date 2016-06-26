@@ -67,13 +67,18 @@
         android:id="@+id/type"
         android:layout_below="@+id/typeTitle"
         android:inputType="number" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/expiration"
+                android:layout_below="@+id/type"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/commit"
         android:onClick="pushIt"
-        android:layout_below="@+id/type"
+        android:layout_below="@+id/expiration"
         android:text="Commit"/>
     <Button
         android:layout_width="match_parent"

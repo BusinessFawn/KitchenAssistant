@@ -57,7 +57,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/datePickWrap"
         android:layout_below="@+id/ingredientCapWrap">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="datePickerListener"
+            android:id="@+id/datePickingButton"
+            android:text="Choose Date"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="No date selected"
+            android:id="@+id/datePickingDisplay"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/datePickWrap">
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"

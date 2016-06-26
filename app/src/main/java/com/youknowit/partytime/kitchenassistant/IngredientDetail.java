@@ -1,37 +1,50 @@
 package com.youknowit.partytime.kitchenassistant;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class IngredientDetail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Ingredient thisIngredient = new Ingredient();
     private EditText currentAmount;
-    Integer capacity;
     private Spinner measurementSpinner;
-    int updatedIngredientType;
     boolean firstSelectionMade = false;
     private String currentAmountString;
+    private DatePicker ingredientDatePicker;
+    private Calendar ingredientCalendar;
+    private TextView ingredientDateDisplay;
+    private int year, month, day;
+    private String datePickedString;
     DBHandlerNew dbHandlerNew = new DBHandlerNew(this);
+    int updatedIngredientType;
+    Integer capacity;
     Button decrementInventory;
     Button incrementInventory;
     Button commitMeasurement;
     Button commitCancel;
+
 
 
     @Override
@@ -40,6 +53,7 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_ingredient_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         //inflate and fill spinner
         measurementSpinner = (Spinner) findViewById(R.id.ingredientSpinner);
@@ -90,6 +104,21 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
         incrementInventory = (Button) findViewById(R.id.incrementIngredient);
         commitMeasurement = (Button) findViewById(R.id.commitIngredientChange);
         commitCancel = (Button) findViewById(R.id.commitIngredientCancel);
+
+        //inflate datepicker, calendar, and date selected textview
+
+        ingredientDateDisplay = (TextView) findViewById(R.id.datePickingDisplay);
+        ingredientCalendar = Calendar.getInstance();
+        year = ingredientCalendar.get(Calendar.YEAR);
+        month = ingredientCalendar.get(Calendar.MONTH);
+        day = ingredientCalendar.get(Calendar.DAY_OF_MONTH);
+        if (thisIngredient.getIngredientExpiration().equals("") || thisIngredient.getIngredientExpiration() == null) {
+            showDate(year, month + 1, day);
+        }else {
+            showDate();
+        }
+
+
     }
 
     public void addListenerOnSpinnerItemSelection() {
@@ -102,7 +131,7 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
         int currentType = thisIngredient.getIngredientType();
         if (!firstSelectionMade)
         {
-            measurementSpinner.setSelection(updatedIngredientType);
+            measurementSpinner.setSelection(currentType);
             firstSelectionMade = true;
 
         }
@@ -111,11 +140,42 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
             updatedIngredientType = position;
 
         }
-/*        Toast.makeText(spinner.getContext(),
-                "Selected: " + spinner.getItemAtPosition(updatedIngredientType).toString(),
-                Toast.LENGTH_LONG).show();
+    }
 
-        System.out.println(updatedIngredientType);*/
+    @SuppressWarnings("deprecation")
+    public void datePickerListener(View view) {
+        showDialog(999);
+        //Toast.makeText(getApplicationContext(),"ca",Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        // TODO Auto-generated method stub
+        if (id == 999) {
+            return new DatePickerDialog(this, myDateListener, year, month, day);
+        }
+        return null;
+    }
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            showDate(arg1, arg2+1, arg3);
+            setIngredientDate(arg1, arg2+1, arg3);
+        }
+    };
+    private void showDate(int year, int month, int day) {
+        ingredientDateDisplay.setText(new StringBuilder().append(year).append("-")
+                .append(month).append("-").append(day));
+    }
+    private void showDate() {
+        ingredientDateDisplay.setText(thisIngredient.getIngredientExpiration());
+    }
+    private void setIngredientDate(int year, int month, int day) {
+        datePickedString = year + "-" + month + "-" + day;
+        thisIngredient.setIngredientExpiration(datePickedString);
     }
 
     @Override
@@ -123,18 +183,6 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
         // TODO Auto-generated method stub
 
     }
-    /*public void addListenerOnButton() {
-        measurementSpinner = (Spinner) findViewById(R.id.ingredientSpinner);
-        commitMeasurement = (Button) findViewById(R.id.commitIngredientChange);
-        commitMeasurement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(IngredientDetail.this,
-                        "Selected: " + String.valueOf(measurementSpinner.getSelectedItem()),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-    }*/
 
     public void ingredientDetailEdit(View view) {
         switch (view.getId()) {
@@ -152,6 +200,7 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
                 int changedAmount = Integer.parseInt(currentAmount.getText().toString());
                 thisIngredient.setIngredientCapacity(changedAmount);
                 thisIngredient.setIngredientType(updatedIngredientType);
+                System.out.println(datePickedString);
                 dbHandlerNew.updateIngredient(thisIngredient);
                 break;
             case R.id.commitIngredientCancel:
@@ -162,5 +211,7 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
 
         }
     }
+
+
 }
 

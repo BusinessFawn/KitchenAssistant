@@ -9,16 +9,18 @@ public class Ingredient {
     private int ingredientCapacity;
     private int ingredientType;
     private String ingredientTypeString;
+    private String ingredientExpiration;
     public Ingredient()
     {
     }
-    public Ingredient(int ingredientId,String ingredientName, int ingredientCapacity, int ingredientType)
+    public Ingredient(int ingredientId,String ingredientName, int ingredientCapacity, int ingredientType, String ingredientExpiration)
     {
         this.ingredientId=ingredientId;
         this.ingredientName=ingredientName;
         this.ingredientCapacity=ingredientCapacity;
         this.ingredientType=ingredientType;
         setIngredientTypeString(ingredientType);
+        this.ingredientExpiration = ingredientExpiration;
     }
     @Override
     public String toString() {
@@ -58,6 +60,10 @@ public class Ingredient {
         }
     }
 
+    public void setIngredientExpiration(String ingredientExpiration) {
+        this.ingredientExpiration = ingredientExpiration;
+    }
+
     public int getIngredientId() {
         return ingredientId;
     }
@@ -67,12 +73,13 @@ public class Ingredient {
     public String getIngredientName() {
         return ingredientName;
     }
-
     public int getIngredientType() {
         return ingredientType;
     }
-
     public String getIngredientTypeString() {
         return ingredientTypeString;
+    }
+    public String getIngredientExpiration() {
+        return ingredientExpiration;
     }
 }

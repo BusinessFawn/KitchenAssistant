@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText ingredientName = (EditText) findViewById(R.id.name);
         final EditText ingredientCapacity = (EditText) findViewById(R.id.capacity);
         final EditText ingredientType = (EditText) findViewById(R.id.type);
+        final EditText ingredientExpiration = (EditText) findViewById(R.id.expiration);
         final EditText ingredientDelete = (EditText) findViewById(R.id.deleteInput);
         DBHandlerNew dbIngredient = new DBHandlerNew(this);
         Ingredient negotiateIngredient = new Ingredient();
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 //DBHandlerNew dbIngredient = new DBHandlerNew(this);
                 List<Ingredient> ingredients = dbIngredient.getAllIngredients();
                 for (Ingredient ingredient : ingredients) {
-                    allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + " ,Name: " + ingredient.getIngredientName() + " ,Capacity: " + ingredient.getIngredientCapacity() + " ,Type: " + ingredient.getIngredientTypeString();
+                    allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + ", Name: " + ingredient.getIngredientName() + ", Capacity: " + ingredient.getIngredientCapacity() + ", Type: " + ingredient.getIngredientTypeString() + ", Expiration: " + ingredient.getIngredientExpiration() + "\n";
                 }
                 output.setText(allIngredients);
                 break;
@@ -91,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
                 String nameOfIngredient = ingredientName.getText().toString();
                 int capacityOfIngredient = Integer.parseInt(ingredientCapacity.getText().toString());
                 int typeOfIngredient = Integer.parseInt(ingredientType.getText().toString());
+                String expirationOfIngredient = ingredientExpiration.getText().toString();
 
                 if (nameOfIngredient.equals("") || typeOfIngredient < 0 || typeOfIngredient > 3) {
                     output.setText("Input is required, type must be a number between 0 and 3");
                 } else {
-                    dbIngredient.addIngredient(new Ingredient(0, nameOfIngredient, capacityOfIngredient, typeOfIngredient));
+                    dbIngredient.addIngredient(new Ingredient(0, nameOfIngredient, capacityOfIngredient, typeOfIngredient, expirationOfIngredient));
                 }
                 break;
             case R.id.delete:
