@@ -8,9 +8,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.youknowit.partytime.kitchenassistant.MainActivityFragment"
     tools:showIn="@layout/activity_main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topBanner"
+        android:background="@color/colorAccent"
+        android:weightSum="1">
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/pantryicon"
+        android:maxWidth="60dp" />
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/recipeicon"
+        />
+
+    </LinearLayout>
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topBanner">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
