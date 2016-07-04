@@ -81,4 +81,6 @@ public class RecipeDBHandler extends SQLiteOpenHelper {
         }
         db.close(); // Closing database connection
     }
+
+    //TODO write query to get ingredients that are used in a recipe.
 }

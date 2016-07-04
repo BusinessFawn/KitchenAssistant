@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/topBanner"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimaryDark"
         android:weightSum="1">
     <Button
         android:layout_width="60dp"
@@ -24,7 +24,14 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/recipeicon"
+        android:paddingLeft="10dp"
         />
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/listicon"
+            android:paddingLeft="10dp"
+            />
 
     </LinearLayout>
     <ScrollView

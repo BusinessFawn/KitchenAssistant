@@ -25,7 +25,8 @@
         <activity
             android:name=".IngredientDetail"
             android:label="@string/title_activity_ingredient_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".RecipeDetail"></activity>
     </application>
 
 </manifest>

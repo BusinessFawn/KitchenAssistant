@@ -32,7 +32,7 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
     private Spinner measurementSpinner;
     boolean firstSelectionMade = false;
     private String currentAmountString;
-    private DatePicker ingredientDatePicker;
+    private DatePicker ingredientDatePicker; // is this needed?
     private Calendar ingredientCalendar;
     private TextView ingredientDateDisplay;
     private int year, month, day;
