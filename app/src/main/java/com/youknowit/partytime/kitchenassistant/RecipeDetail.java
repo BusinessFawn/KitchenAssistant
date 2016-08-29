@@ -1,37 +1,55 @@
 package com.youknowit.partytime.kitchenassistant;
 
+import android.content.Intent;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class RecipeDetail extends AppCompatActivity {
+public class RecipeDetail extends AppCompatActivity implements AdapterView.OnItemClickListener{
     public final static String EXTRA_MESSAGE = "com.youknowit.partytime.kitchenassistant.MESSAGE";
     RecipeDBHandler recipeDBHandler = new RecipeDBHandler(this);
     Recipe currentRecipe = new Recipe();
     Button commitRecipe;
     EditText recipeName;
-    EditText recipeLastMade;
     EditText recipeServingsMade;
     private String datePickedString;
-    private DatePicker ingredientDatePicker; //is this needed?
     private Calendar recipeCalendar;
     private TextView recipeDateDisplay;
     private int year, month, day;
+    private Ingredient ingredientToAdd = new Ingredient();
+    private DBHandlerNew dbHandlerNew = new DBHandlerNew(this);
+    private ArrayList<Ingredient> ingredientsAdded = new ArrayList<>();
+    private ArrayList<Integer> ingredientsCapacityUsed = new ArrayList<>();
+    private EditText editIngredientSearch;
+    private Button buttonIngredientSearch;
+    Integer commitRecipeServings = 0;
+    String commitRecipeName;
     //TODO add ingredient selection/paring
     //TODO make layout more functional
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
+
+        //inflate some date EditText objects
+        recipeName = (EditText) findViewById(R.id.recipeName);
+        recipeServingsMade = (EditText) findViewById(R.id.recipeServingsMade);
+        editIngredientSearch = (EditText) findViewById(R.id.et_ingredient_search);
+
 
         //inflate datepicker, calendar, and date selected textview
 
@@ -40,15 +58,48 @@ public class RecipeDetail extends AppCompatActivity {
         year = recipeCalendar.get(Calendar.YEAR);
         month = recipeCalendar.get(Calendar.MONTH);
         day = recipeCalendar.get(Calendar.DAY_OF_MONTH);
-        if (currentRecipe.getRecipeLastMade().equals("") || currentRecipe.getRecipeLastMade() == null) {
+        if (currentRecipe.getRecipeLastMade() == null || currentRecipe.getRecipeLastMade().equals("")) {
             showDate(year, month + 1, day);
         }else {
             showDate();
         }
 
+        //inflate buttons
+        commitRecipe = (Button) findViewById(R.id.recipeCommit);
+        buttonIngredientSearch = (Button) findViewById(R.id.b_ingredient_search);
+
+        //inflate list adapter
+        ListView itemList = (ListView) findViewById(R.id.recipeIngredientList);
+        itemList.setOnItemClickListener(this);
+
+
+
+        ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                ingredientsAdded);
+        itemList.setAdapter(arrayAdapter);
+
+        //receive intent from ingredient list view
+        Intent intent = getIntent();
+        if (getIntent().getExtras() != null) {
+            int id = intent.getIntExtra("id", 0);
+            //set the ingredient for this screen
+
+            ingredientToAdd = dbHandlerNew.getIngredient(id);
+            ingredientsAdded.add(ingredientToAdd);
+            currentRecipe = intent.getParcelableExtra("recipePassBack");
+            recipeName.setText(currentRecipe.getRecipeName());
+            String servingsMadeString = String.valueOf(currentRecipe.getRecipeServingsMade());
+            recipeServingsMade.setText(servingsMadeString);
+            System.out.println(currentRecipe.getRecipeServingsMade());
+            recipeDateDisplay.setText(currentRecipe.getRecipeLastMade());
+        }
+
+
     }
 
-    //inflate datepicker, calendar, and date selected textview
+
 
 
     @SuppressWarnings("deprecation")
@@ -84,6 +135,89 @@ public class RecipeDetail extends AppCompatActivity {
     }
     private void setIngredientDate(int year, int month, int day) {
         datePickedString = year + "-" + month + "-" + day;
-        currentRecipe.setRecipeLastMade(datePickedString);
+    }
+
+    //Button onClick Listener
+    public void recipeButtonListener(View view) {
+
+        //inflate EditText
+        recipeName = (EditText) findViewById(R.id.recipeName);
+        recipeServingsMade = (EditText) findViewById(R.id.recipeServingsMade);
+        Intent intent = new Intent(this, IngredientListRecipeAdd.class);
+        commitRecipeName = recipeName.getText().toString();
+        switch (view.getId()) {
+            case R.id.b_ingredient_search:
+                String selectingIngredient = editIngredientSearch.getText().toString();
+                if (selectingIngredient.equals("")) {
+                    selectingIngredient = " ";
+                    intent.putExtra(EXTRA_MESSAGE, selectingIngredient);
+                } else {
+                    intent.putExtra(EXTRA_MESSAGE, selectingIngredient);
+                }
+
+                intent.putExtra(EXTRA_MESSAGE, selectingIngredient);
+
+                if (commitRecipeName == null || commitRecipeName.equals("")) {
+                    currentRecipe.setRecipeName("");
+                } else {
+                    currentRecipe.setRecipeName(commitRecipeName);
+                }
+                if (recipeServingsMade.getText().toString().equals("")) {
+                    currentRecipe.setRecipeServingsMade(0);
+                } else {
+                    commitRecipeServings = Integer.parseInt(recipeServingsMade.getText().toString());
+                    currentRecipe.setRecipeServingsMade(commitRecipeServings);
+                }
+                currentRecipe.setRecipeLastMade(datePickedString);
+
+                if (ingredientsAdded.size() > 0) {
+                    for (int i = 0; i < ingredientsAdded.size(); i++)
+                    currentRecipe.setIngredientIds(ingredientsAdded.get(i));
+                }
+
+                if (ingredientsCapacityUsed.size() > 0) {
+                    for (int i = 0; i < ingredientsCapacityUsed.size(); i++)
+                        currentRecipe.setIngredientInventoryUsed(ingredientsCapacityUsed.get(i));
+                }
+
+                //TODO figure out how to pass a recipe to another activity
+                intent.putExtra("recipePass", currentRecipe);
+
+                startActivity(intent);
+                break;
+            case R.id.recipeCommit:
+                //TODO commit recipe
+
+
+                try
+                {
+
+
+                    currentRecipe.setRecipeName(commitRecipeName);
+                    currentRecipe.setRecipeServingsMade(commitRecipeServings);
+                    currentRecipe.setRecipeLastMade(datePickedString);
+
+                    recipeDBHandler.addRecipe(currentRecipe);
+                    recipeDBHandler.addIngredientToRecipe(currentRecipe,
+                            currentRecipe.getIngredientIds(),
+                            currentRecipe.getIngredientInventoryUsed());
+                }catch(ArrayIndexOutOfBoundsException e1)
+                {
+                    System.out.println("Something went wrong!");
+                }
+
+
+                break;
+
+        }
+    }
+
+    public void onItemClick(AdapterView<?> l, View v, int id, long position) {
+        Intent intent = new Intent();
+        intent.setClass(this, IngredientDetail.class);
+        ingredientToAdd = ingredientsAdded.get(id);
+        int passingID = ingredientToAdd.getIngredientId();
+        intent.putExtra("id", passingID);
+        startActivity(intent);
     }
 }

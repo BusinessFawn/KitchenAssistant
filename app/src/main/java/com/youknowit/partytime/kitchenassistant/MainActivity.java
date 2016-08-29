@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         Intent intent = new Intent(this, DisplayIngredients.class);
         final EditText ingredientToSelect = (EditText) findViewById(R.id.numToSelect);
-        String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRStUVWXYZ";
         switch (view.getId()) {
             case R.id.sendMessage:
 
@@ -64,6 +63,21 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra(EXTRA_MESSAGE, selectingIngredient);
                     startActivity(intent);
                 }
+        }
+    }
+    public void recipes(View view) {
+        Intent intent = new Intent(this, RecipeDetail.class);
+        switch (view.getId()) {
+            case R.id.addRecipe:
+                //intent.putExtra(EXTRA_MESSAGE, "lolz");
+                startActivity(intent);
+        }
+    }
+    public void recipeView(View view) {
+        Intent intent = new Intent(this, RecipeList.class);
+        switch (view.getId()) {
+            case R.id.viewRecipe:
+                startActivity(intent);
         }
     }
     public void pushIt(View view) {
@@ -83,7 +97,10 @@ public class MainActivity extends AppCompatActivity {
                 //DBHandlerNew dbIngredient = new DBHandlerNew(this);
                 List<Ingredient> ingredients = dbIngredient.getAllIngredients();
                 for (Ingredient ingredient : ingredients) {
-                    allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + ", Name: " + ingredient.getIngredientName() + ", Capacity: " + ingredient.getIngredientCapacity() + ", Type: " + ingredient.getIngredientTypeString() + ", Expiration: " + ingredient.getIngredientExpiration() + "\n";
+                    allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + ", Name: "
+                            + ingredient.getIngredientName() + ", Capacity: " + ingredient.getIngredientCapacity() +
+                            ", Type: " + ingredient.getIngredientTypeString() + ", Expiration: " +
+                            ingredient.getIngredientExpiration() + "\n";
                 }
                 output.setText(allIngredients);
                 break;

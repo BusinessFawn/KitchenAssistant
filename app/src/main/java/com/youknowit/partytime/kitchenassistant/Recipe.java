@@ -1,11 +1,13 @@
 package com.youknowit.partytime.kitchenassistant;
 
 import java.util.ArrayList;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by pyrobones07 on 6/20/16.
  */
-public class Recipe {
+public class Recipe implements Parcelable {
     private int recipeId;
     private String recipeName;
     private String recipeLastMade;
@@ -16,11 +18,14 @@ public class Recipe {
     public Recipe() {
 
     }
-    public Recipe(int recipeId, String recipeName, String recipeLastMade, int recipeServingsMade) {
+    public Recipe(int recipeId, String recipeName, String recipeLastMade, int recipeServingsMade, ArrayList<Integer> ingredientIds, ArrayList<Integer> ingredientInventoryUsed
+    ) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;
         this.recipeLastMade = recipeLastMade;
         this.recipeServingsMade = recipeServingsMade;
+        this.ingredientIds = ingredientIds;
+        this.ingredientInventoryUsed = ingredientInventoryUsed;
     }
     @Override
     public String toString() {
@@ -60,6 +65,7 @@ public class Recipe {
     public int getRecipeId() {
         return recipeId;
     }
+
     public String getRecipeName(){
         return recipeName;
     }
@@ -79,4 +85,43 @@ public class Recipe {
     public ArrayList<Integer> getIngredientInventoryUsed() {
         return ingredientInventoryUsed;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.recipeId);
+        dest.writeString(this.recipeName);
+        dest.writeString(this.recipeLastMade);
+        dest.writeInt(this.recipeServingsMade);
+        dest.writeList(this.ingredientIds);
+        dest.writeList(this.ingredientInventoryUsed);
+    }
+
+    protected Recipe(Parcel in) {
+        this.recipeId = in.readInt();
+        this.recipeName = in.readString();
+        this.recipeLastMade = in.readString();
+        this.recipeServingsMade = in.readInt();
+        this.ingredientIds = new ArrayList<Integer>();
+        in.readList(this.ingredientIds, Integer.class.getClassLoader());
+        this.ingredientInventoryUsed = new ArrayList<Integer>();
+        in.readList(this.ingredientInventoryUsed, Integer.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel source) {
+            return new Recipe(source);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }
