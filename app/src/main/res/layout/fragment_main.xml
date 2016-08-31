@@ -9,38 +9,13 @@
     tools:context="com.youknowit.partytime.kitchenassistant.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/topBanner"
-        android:background="@color/colorPrimaryDark"
-        android:weightSum="1">
-    <Button
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/pantryicon"
-        android:maxWidth="60dp" />
-    <Button
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/recipeicon"
-        android:paddingLeft="10dp"
-        />
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/listicon"
-            android:paddingLeft="10dp"
-            />
-
-    </LinearLayout>
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topBanner">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <EditText
         android:layout_width="match_parent"
@@ -56,15 +31,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/recipeWrap">
+                android:id="@+id/recipeWrap"
+                android:layout_below="@+id/sendMessage">
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:text="Add Recipe"
                     android:layout_weight="1"
                     android:id="@+id/addRecipe"
-                    android:onClick="recipes"
-                    android:layout_below="@+id/sendMessage"/>
+                    android:onClick="recipes" />
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="40dp"
@@ -152,6 +127,6 @@
         android:id="@+id/delete"
         android:text="Delete"
         android:layout_below="@+id/deleteInput"/>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 </RelativeLayout>

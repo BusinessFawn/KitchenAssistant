@@ -15,7 +15,8 @@ public class IngredientListRecipeAdd extends AppCompatActivity implements Adapte
  {
 
      Ingredient separateIngredients = new Ingredient();
-     ArrayList<Ingredient> ingredients = new ArrayList<>();
+     ArrayList<Ingredient> ingredientsToPick = new ArrayList<>();
+     ArrayList<Integer> ingredientIdsPassed = new ArrayList<>();
      Recipe currentRecipe = new Recipe();
 
     @Override
@@ -33,26 +34,27 @@ public class IngredientListRecipeAdd extends AppCompatActivity implements Adapte
         String s = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         ArrayList<Ingredient> tempIngredients = new ArrayList<>(intentHandler.getLikeIngredientName(s));
         currentRecipe = getIntent().getParcelableExtra("recipePass");
-        System.out.println("extra words " + currentRecipe.getRecipeName());
-
+        ingredientIdsPassed = getIntent().getIntegerArrayListExtra("ingredientList");
         for (int i = 0; i < tempIngredients.size(); i++) {
-            ingredients.add(i,tempIngredients.get(i));
+            ingredientsToPick.add(i,tempIngredients.get(i));
         }
 
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                ingredients);
+                ingredientsToPick);
         itemList.setAdapter(arrayAdapter);
     }
     public void onItemClick(AdapterView<?> l, View v, int id, long position) {
      Intent intent = new Intent();
         intent.setClass(this, RecipeDetail.class);
-        separateIngredients = ingredients.get(id);
+        separateIngredients = ingredientsToPick.get(id);
         int passingID = separateIngredients.getIngredientId();
         intent.putExtra("id", passingID);
         intent.putExtra("recipePassBack",currentRecipe);
+        intent.putExtra("ingredientIdsPassBack",ingredientIdsPassed);
         startActivity(intent);
+        finish();
 
     }
 

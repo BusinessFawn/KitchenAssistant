@@ -4,19 +4,24 @@ import android.content.Intent;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.SystemClock;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class RecipeDetail extends AppCompatActivity implements AdapterView.OnItemClickListener{
@@ -34,6 +39,7 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
     private DBHandlerNew dbHandlerNew = new DBHandlerNew(this);
     private ArrayList<Ingredient> ingredientsAdded = new ArrayList<>();
     private ArrayList<Integer> ingredientsCapacityUsed = new ArrayList<>();
+    private ArrayList<Integer> ingredientsIds = new ArrayList<>();
     private EditText editIngredientSearch;
     private Button buttonIngredientSearch;
     Integer commitRecipeServings = 0;
@@ -80,24 +86,33 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 ingredientsAdded);
         itemList.setAdapter(arrayAdapter);
 
+
         //receive intent from ingredient list view
         Intent intent = getIntent();
         if (getIntent().getExtras() != null) {
             int id = intent.getIntExtra("id", 0);
+            ingredientsIds = intent.getIntegerArrayListExtra("ingredientIdsPassBack");
+            ingredientsIds.add(id);
             //set the ingredient for this screen
-
-            ingredientToAdd = dbHandlerNew.getIngredient(id);
-            ingredientsAdded.add(ingredientToAdd);
+//            ingredientsAdded = intent.getParcelableArrayListExtra("ingredientListPassBack");
+            for (int i = 0; i < ingredientsIds.size(); i++){
+                //ingredientToAdd =
+                ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
+                ingredientsAdded.add(ingredientToAdd);
+                System.out.println("Successfully added " + ingredientToAdd.getIngredientName());
+            }
             currentRecipe = intent.getParcelableExtra("recipePassBack");
             recipeName.setText(currentRecipe.getRecipeName());
             String servingsMadeString = String.valueOf(currentRecipe.getRecipeServingsMade());
             recipeServingsMade.setText(servingsMadeString);
-            System.out.println(currentRecipe.getRecipeServingsMade());
             recipeDateDisplay.setText(currentRecipe.getRecipeLastMade());
+            ListViewSizer.setListViewHeightBasedOnChildren(itemList);
         }
 
 
+
     }
+
 
 
 
@@ -182,8 +197,10 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
 
                 //TODO figure out how to pass a recipe to another activity
                 intent.putExtra("recipePass", currentRecipe);
+                intent.putIntegerArrayListExtra("ingredientList", ingredientsIds);
 
                 startActivity(intent);
+                finish();
                 break;
             case R.id.recipeCommit:
                 //TODO commit recipe
