@@ -19,7 +19,7 @@ public class RecipeList extends AppCompatActivity implements AdapterView.OnItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
-        RecipeDBHandler intentHandler = new RecipeDBHandler(this);
+        DBHandlerNew intentHandler = new DBHandlerNew(this);
         recipeArrayList = intentHandler.getRecipes();
         ListView itemList = (ListView) findViewById(R.id.lv_recipe_list);
         itemList.setOnItemClickListener(this);

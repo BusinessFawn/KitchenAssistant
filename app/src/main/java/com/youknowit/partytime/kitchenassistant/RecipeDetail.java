@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RecipeDetail extends AppCompatActivity implements AdapterView.OnItemClickListener{
     public final static String EXTRA_MESSAGE = "com.youknowit.partytime.kitchenassistant.MESSAGE";
-    RecipeDBHandler recipeDBHandler = new RecipeDBHandler(this);
+    DBHandlerNew recipeDBHandler = new DBHandlerNew(this);
     Recipe currentRecipe = new Recipe();
     Button commitRecipe;
     EditText recipeName;
@@ -92,14 +92,12 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
         if (getIntent().getExtras() != null) {
             int id = intent.getIntExtra("id", 0);
             ingredientsIds = intent.getIntegerArrayListExtra("ingredientIdsPassBack");
-            ingredientsIds.add(id);
-            //set the ingredient for this screen
-//            ingredientsAdded = intent.getParcelableArrayListExtra("ingredientListPassBack");
-            for (int i = 0; i < ingredientsIds.size(); i++){
-                //ingredientToAdd =
+            if (id != 0) {
+                ingredientsIds.add(id);
+            for (int i = 0; i < ingredientsIds.size(); i++) {
                 ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
                 ingredientsAdded.add(ingredientToAdd);
-                System.out.println("Successfully added " + ingredientToAdd.getIngredientName());
+            }
             }
             currentRecipe = intent.getParcelableExtra("recipePassBack");
             recipeName.setText(currentRecipe.getRecipeName());
@@ -214,8 +212,8 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                     currentRecipe.setRecipeServingsMade(commitRecipeServings);
                     currentRecipe.setRecipeLastMade(datePickedString);
 
-                    recipeDBHandler.addRecipe(currentRecipe);
-                    recipeDBHandler.addIngredientToRecipe(currentRecipe,
+                    dbHandlerNew.addRecipe(currentRecipe);
+                    dbHandlerNew.addIngredientToRecipe(currentRecipe,
                             currentRecipe.getIngredientIds(),
                             currentRecipe.getIngredientInventoryUsed());
                 }catch(ArrayIndexOutOfBoundsException e1)
