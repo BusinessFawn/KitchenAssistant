@@ -4,15 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.List;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,20 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //DBHandler2 db = new DBHandler2(this);
-        //DBHandlerNew dbIngredient = new DBHandlerNew(this);
-//Inserting Shop/Rows
-        //Log.d("Insert: ", "Inserting ..");
-        //dbIngredient.addIngredient(new Ingredient(0, "lolz", "12"));
-// Reading all ingredients
-        //List<Ingredient> allIngredients = dbIngredient.getAllIngredients();
-        //List<Ingredient> ingredients = dbIngredient.getAllIngredients();
-
-        //for (Ingredient ingredient : ingredients) {
-        //    String log = "Id: " + ingredient.getIngredientId() + " ,Name: " + ingredient.getIngredientName() + " ,Capacity: " + ingredient.getIngredientCapacity();
-// Writing shops to log
-        //    Log.d("Ingredient", log);
-        //}
         submitButton = (Button) findViewById(R.id.commit);
         queryButton = (Button) findViewById(R.id.view);
         deleteButton = (Button) findViewById(R.id.delete);
@@ -95,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.view:
                 String allIngredients = "";
                 //DBHandlerNew dbIngredient = new DBHandlerNew(this);
-                List<Ingredient> ingredients = dbIngredient.getAllIngredients();
+                ArrayList<Ingredient> ingredients = dbIngredient.getAllIngredients();
                 for (Ingredient ingredient : ingredients) {
                     allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + ", Name: "
                             + ingredient.getIngredientName() + ", Capacity: " + ingredient.getIngredientCapacity() +

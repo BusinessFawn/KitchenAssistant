@@ -115,8 +115,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         return ingredientList;
     }
     // Getting All Ingredients
-    public List<Ingredient> getAllIngredients() {
-        List<Ingredient> ingredientList = new ArrayList<Ingredient>();
+    public ArrayList<Ingredient> getAllIngredients() {
+        ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
 // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_INGREDIENTS;
 
@@ -144,8 +144,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 
 
 
-    public List<Ingredient> getLikeIngredientName(String ingredientName) {
-        List<Ingredient> ingredientList = new ArrayList<>();
+    public ArrayList<Ingredient> getLikeIngredientName(String ingredientName) {
+        ArrayList<Ingredient> ingredientList = new ArrayList<>();
 // Select items with names like the entered
         String selectQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " where " + INGREDIENT_NAME + " like '%" + ingredientName + "%'";
 
@@ -256,8 +256,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 
 
     // Getting All Ingredient's IDs used in the recipe
-    public List<Integer> getRecipeIngredientIds(int recipeId) {
-        List<Integer> recipeIngredientList = new ArrayList<>();
+    public ArrayList<Integer> getRecipeIngredientIds(int recipeId) {
+        ArrayList<Integer> recipeIngredientList = new ArrayList<>();
         String selectingRecipeId = Integer.toString(recipeId);
 // Select All Query
         String selectQuery = "SELECT " + INGREDIENT_ID + " FROM " + TABLE_RECIPE_TO_INGREDIENT +
@@ -281,8 +281,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 
 
     // Getting All Ingredient's capacity used in the recipe
-    public List<Integer> getRecipeIngredientCapacity(int recipeId) {
-        List<Integer> recipeIngredientList = new ArrayList<>();
+    public ArrayList<Integer> getRecipeIngredientCapacity(int recipeId) {
+        ArrayList<Integer> recipeIngredientList = new ArrayList<>();
         String selectingRecipeId = Integer.toString(recipeId);
 // Select All Query
         String selectQuery = "SELECT " + R2I_INGREDIENT_CAPACITY_USED + " FROM " + TABLE_RECIPE_TO_INGREDIENT +

@@ -26,7 +26,6 @@ import java.util.List;
 
 public class RecipeDetail extends AppCompatActivity implements AdapterView.OnItemClickListener{
     public final static String EXTRA_MESSAGE = "com.youknowit.partytime.kitchenassistant.MESSAGE";
-    DBHandlerNew recipeDBHandler = new DBHandlerNew(this);
     Recipe currentRecipe = new Recipe();
     Button commitRecipe;
     EditText recipeName;
@@ -91,13 +90,21 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = getIntent();
         if (getIntent().getExtras() != null) {
             int id = intent.getIntExtra("id", 0);
-            ingredientsIds = intent.getIntegerArrayListExtra("ingredientIdsPassBack");
             if (id != 0) {
-                ingredientsIds.add(id);
-            for (int i = 0; i < ingredientsIds.size(); i++) {
-                ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
-                ingredientsAdded.add(ingredientToAdd);
-            }
+                if (intent.getIntegerArrayListExtra("ingredientIdsPassBack") == null) {
+                    ingredientsIds.add(id);
+                    for (int i = 0; i < ingredientsIds.size(); i++) {
+                        ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
+                        ingredientsAdded.add(ingredientToAdd);
+                    }
+                } else {
+                    ingredientsIds = intent.getIntegerArrayListExtra("ingredientIdsPassBack");
+                    ingredientsIds.add(id);
+                    for (int i = 0; i < ingredientsIds.size(); i++) {
+                        ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
+                        ingredientsAdded.add(ingredientToAdd);
+                    }
+                }
             }
             currentRecipe = intent.getParcelableExtra("recipePassBack");
             recipeName.setText(currentRecipe.getRecipeName());
