@@ -108,12 +108,19 @@
         android:onClick="pushIt"
         android:layout_below="@+id/commit"
         android:text="View Ingredients"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/viewRecipes"
+                android:onClick="pushIt"
+                android:layout_below="@+id/view"
+                android:text="View All Recipes"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:text="output"
         android:id="@+id/output"
-        android:layout_below="@+id/view"/>
+        android:layout_below="@+id/viewRecipes"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

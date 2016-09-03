@@ -107,10 +107,18 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 }
             }
             currentRecipe = intent.getParcelableExtra("recipePassBack");
+            if (currentRecipe.getIngredientIds() != null) {
+                ingredientsIds = currentRecipe.getIngredientIds();
+                for (int i = 0; i < ingredientsIds.size(); i++) {
+                    ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
+                    ingredientsAdded.add(ingredientToAdd);
+                }
+            }
             recipeName.setText(currentRecipe.getRecipeName());
             String servingsMadeString = String.valueOf(currentRecipe.getRecipeServingsMade());
             recipeServingsMade.setText(servingsMadeString);
             recipeDateDisplay.setText(currentRecipe.getRecipeLastMade());
+
             ListViewSizer.setListViewHeightBasedOnChildren(itemList);
         }
 
@@ -183,7 +191,7 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                     currentRecipe.setRecipeName(commitRecipeName);
                 }
                 if (recipeServingsMade.getText().toString().equals("")) {
-                    currentRecipe.setRecipeServingsMade(0);
+                    currentRecipe.setRecipeServingsMade(5);
                 } else {
                     commitRecipeServings = Integer.parseInt(recipeServingsMade.getText().toString());
                     currentRecipe.setRecipeServingsMade(commitRecipeServings);
@@ -209,26 +217,15 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 break;
             case R.id.recipeCommit:
                 //TODO commit recipe
-
-
-                try
-                {
-
-
                     currentRecipe.setRecipeName(commitRecipeName);
                     currentRecipe.setRecipeServingsMade(commitRecipeServings);
                     currentRecipe.setRecipeLastMade(datePickedString);
+                    currentRecipe.setIngredientIds(ingredientsIds);
 
                     dbHandlerNew.addRecipe(currentRecipe);
                     dbHandlerNew.addIngredientToRecipe(currentRecipe,
                             currentRecipe.getIngredientIds(),
                             currentRecipe.getIngredientInventoryUsed());
-                }catch(ArrayIndexOutOfBoundsException e1)
-                {
-                    System.out.println("Something went wrong!");
-                }
-
-
                 break;
 
         }

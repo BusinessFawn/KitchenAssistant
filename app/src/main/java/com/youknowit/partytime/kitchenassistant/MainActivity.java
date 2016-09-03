@@ -17,9 +17,10 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.youknowit.partytime.kitchenassistant.MESSAGE";
     Button submitButton;
     Button queryButton;
+    Button queryRecipeButton;
     Button deleteButton;
     Button sendMessageButton;
-
+    private Recipe aNewRecipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         submitButton = (Button) findViewById(R.id.commit);
         queryButton = (Button) findViewById(R.id.view);
+        queryRecipeButton = (Button) findViewById(R.id.viewRecipes);
         deleteButton = (Button) findViewById(R.id.delete);
         sendMessageButton = (Button) findViewById(R.id.sendMessage);
 
@@ -78,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.view:
                 String allIngredients = "";
-                //DBHandlerNew dbIngredient = new DBHandlerNew(this);
                 ArrayList<Ingredient> ingredients = dbIngredient.getAllIngredients();
                 for (Ingredient ingredient : ingredients) {
                     allIngredients = allIngredients + "Id: " + ingredient.getIngredientId() + ", Name: "
@@ -87,6 +88,16 @@ public class MainActivity extends AppCompatActivity {
                             ingredient.getIngredientExpiration() + "\n";
                 }
                 output.setText(allIngredients);
+                break;
+            case R.id.viewRecipes:
+                String allRecipes = "";
+                ArrayList<Recipe> recipes = dbIngredient.getRecipes();
+                for (Recipe recipe : recipes) {
+                    ArrayList<Integer> recipeIngredients = recipe.getIngredientIds();
+                    allRecipes = allRecipes + "Id: " + recipe.getRecipeId() + ", Name: "
+                            + recipe.getRecipeName() + /*", Ingredients: " + recipeIngredients.toString() +*/ "\n";
+                }
+                output.setText(allRecipes);
                 break;
             case R.id.commit:
 
