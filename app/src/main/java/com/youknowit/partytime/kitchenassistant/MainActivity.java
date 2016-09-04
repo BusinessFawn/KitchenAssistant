@@ -93,9 +93,10 @@ public class MainActivity extends AppCompatActivity {
                 String allRecipes = "";
                 ArrayList<Recipe> recipes = dbIngredient.getRecipes();
                 for (Recipe recipe : recipes) {
-                    ArrayList<Integer> recipeIngredients = recipe.getIngredientIds();
+                    recipe.setIngredientIds(dbIngredient.getRecipeIngredientIds(recipe.getRecipeId()));
                     allRecipes = allRecipes + "Id: " + recipe.getRecipeId() + ", Name: "
-                            + recipe.getRecipeName() + /*", Ingredients: " + recipeIngredients.toString() +*/ "\n";
+                            + recipe.getRecipeName() + ", Last Made: " + recipe.getRecipeLastMade() + ", Ingredients: " + recipe.getIngredientIds().toString() +
+                            ", Servings Made: " + recipe.getRecipeServingsMade() +  "\n";
                 }
                 output.setText(allRecipes);
                 break;

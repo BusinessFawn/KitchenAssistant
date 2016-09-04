@@ -200,7 +200,6 @@ public class IngredientDetail extends AppCompatActivity implements AdapterView.O
                 int changedAmount = Integer.parseInt(currentAmount.getText().toString());
                 thisIngredient.setIngredientCapacity(changedAmount);
                 thisIngredient.setIngredientType(updatedIngredientType);
-                System.out.println(datePickedString);
                 dbHandlerNew.updateIngredient(thisIngredient);
                 break;
             case R.id.commitIngredientCancel:

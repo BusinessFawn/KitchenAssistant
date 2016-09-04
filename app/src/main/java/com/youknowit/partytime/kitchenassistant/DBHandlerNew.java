@@ -35,7 +35,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 
 
     // Ingredients Table Column names
-    private static final String INGREDIENT_ID = "id";
+    private static final String INGREDIENT_ID = "ingredientId";
     private static final String INGREDIENT_NAME = "name";
     private static final String INGREDIENT_CAPACITY = "capacity";
     private static final String INGREDIENT_TYPE = "type";
@@ -62,7 +62,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         db.execSQL(CREATE_RECIPE_TABLE);
         //Creating Recipe to Item Table
         String CREATE_RECIPE_2_ITEM_TABLE = "CREATE TABLE " + TABLE_RECIPE_TO_INGREDIENT + "("
-                + RECIPE_ID + " INTEGER " + INGREDIENT_ID + " INTEGER " + R2I_INGREDIENT_CAPACITY_USED +
+                + RECIPE_ID + " INTEGER, " + INGREDIENT_ID + " INTEGER, " + R2I_INGREDIENT_CAPACITY_USED +
                 " INTEGER " + ")";
         db.execSQL(CREATE_RECIPE_2_ITEM_TABLE);
     }
@@ -147,7 +147,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
     public ArrayList<Ingredient> getLikeIngredientName(String ingredientName) {
         ArrayList<Ingredient> ingredientList = new ArrayList<>();
 // Select items with names like the entered
-        String selectQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " where " + INGREDIENT_NAME + " like '%" + ingredientName + "%'";
+        String selectQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + INGREDIENT_NAME + " LIKE '%" + ingredientName + "%'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -214,6 +214,19 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
+    // Updating a recipe
+    public int updateRecipe(Recipe recipe) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(RECIPE_NAME, recipe.getRecipeName());
+        values.put(RECIPE_LAST_MADE, recipe.getRecipeLastMade());
+        values.put(RECIPE_SERVINGS_MADE, recipe.getRecipeServingsMade());
+        // updating row
+        return db.update(TABLE_RECIPE, values, RECIPE_ID + " = ?",
+                new String[]{String.valueOf(recipe.getRecipeId())});
+    }
+
 
     // Getting All Recipes
     public ArrayList<Recipe> getRecipes() {
@@ -259,7 +272,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
     public ArrayList<Integer> getRecipeIngredientIds(int recipeId) {
         ArrayList<Integer> recipeIngredientList = new ArrayList<>();
         String selectingRecipeId = Integer.toString(recipeId);
-// Select All Query
+        // Select All Query
         String selectQuery = "SELECT " + INGREDIENT_ID + " FROM " + TABLE_RECIPE_TO_INGREDIENT +
                 " WHERE " + RECIPE_ID +" = " + selectingRecipeId;
 
