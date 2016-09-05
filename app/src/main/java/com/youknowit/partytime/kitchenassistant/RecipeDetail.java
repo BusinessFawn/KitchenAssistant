@@ -36,7 +36,7 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
     private Button buttonIngredientSearch;
     Integer commitRecipeServings = 0;
     String commitRecipeName;
-    boolean isNewRecipe = true;
+    boolean isItNew = true;
     //TODO add ingredient selection/paring
     //TODO make layout more functional
     @Override
@@ -82,16 +82,13 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
 
         //receive intent from ingredient list view
         Intent intent = getIntent();
+        isItNew = intent.getBooleanExtra("isItNew",true);
+        currentRecipe = intent.getParcelableExtra("recipePassBack");
+
         if (getIntent().getExtras() != null) {
             int id = intent.getIntExtra("id", 0);
             if (id != 0) {
-                if (intent.getIntegerArrayListExtra("ingredientIdsPassBack") == null) {
-                    ingredientsIds.add(id);
-                    for (int i = 0; i < ingredientsIds.size(); i++) {
-                        ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
-                        ingredientsAdded.add(ingredientToAdd);
-                    }
-                } else {
+                if (intent.getIntegerArrayListExtra("ingredientIdsPassBack") != null) {
                     ingredientsIds = intent.getIntegerArrayListExtra("ingredientIdsPassBack");
                     ingredientsIds.add(id);
                     for (int i = 0; i < ingredientsIds.size(); i++) {
@@ -100,13 +97,20 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                     }
                 }
 
+            } else {
+                ingredientsIds = dbHandlerNew.getRecipeIngredientIds(currentRecipe.getRecipeId());
+                for (int i = 0; i < ingredientsIds.size(); i++) {
+                    ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
+                    ingredientsAdded.add(ingredientToAdd);
+                }
             }
-            currentRecipe = intent.getParcelableExtra("recipePassBack");
+
             recipeName.setText(currentRecipe.getRecipeName());
             String servingsMadeString = String.valueOf(currentRecipe.getRecipeServingsMade());
             recipeServingsMade.setText(servingsMadeString);
             recipeDateDisplay.setText(currentRecipe.getRecipeLastMade());
-            showDate();
+
+            //showDate();
 
             ListViewSizer.setListViewHeightBasedOnChildren(itemList);
         }
@@ -146,6 +150,7 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
     private void showDate(int year, int month, int day) {
         recipeDateDisplay.setText(new StringBuilder().append(year).append("-")
                 .append(month).append("-").append(day));
+        setRecipeDate(year,month,day);
     }
     private void showDate() {
         recipeDateDisplay.setText(currentRecipe.getRecipeLastMade());
@@ -188,7 +193,7 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 }
                 currentRecipe.setRecipeLastMade(datePickedString);
 
-                if (ingredientsAdded.size() > 0) {
+                /*if (ingredientsAdded.size() > 0) {
                     for (int i = 0; i < ingredientsAdded.size(); i++)
                     currentRecipe.setIngredientIds(ingredientsAdded.get(i));
                 }
@@ -196,13 +201,13 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 if (ingredientsCapacityUsed.size() > 0) {
                     for (int i = 0; i < ingredientsCapacityUsed.size(); i++)
                         currentRecipe.setIngredientInventoryUsed(ingredientsCapacityUsed.get(i));
-                }
+                }*/
 
                 intent.putExtra("recipePass", currentRecipe);
                 intent.putIntegerArrayListExtra("ingredientList", ingredientsIds);
-
+                intent.putExtra("isItNew",isItNew);
                 startActivity(intent);
-                finish();
+                //finish();
                 break;
             case R.id.recipeCommit:
                 //TODO commit recipe
@@ -230,13 +235,13 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 } else {
                     currentRecipe.setIngredientInventoryUsed(ingredientsIds);
                 }
-                System.out.println(ingredientsIds.toString());
-
 
                 dbHandlerNew.addRecipe(currentRecipe);
+                currentRecipe.setRecipeId(dbHandlerNew.getLastRecipeId());
+
                 dbHandlerNew.addIngredientToRecipe(currentRecipe,
-                        ingredientsIds,
-                        ingredientsIds);
+                        currentRecipe.getIngredientIds(),
+                        currentRecipe.getIngredientInventoryUsed());
                 break;
 
         }

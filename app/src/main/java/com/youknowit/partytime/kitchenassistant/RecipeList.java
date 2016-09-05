@@ -14,6 +14,7 @@ public class RecipeList extends AppCompatActivity implements AdapterView.OnItemC
 
     ArrayList<Recipe> recipeArrayList = new ArrayList<>();
     Recipe singleRecipe = new Recipe();
+    boolean isItNew = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class RecipeList extends AppCompatActivity implements AdapterView.OnItemC
         intent.setClass(this, RecipeDetail.class);
         singleRecipe = recipeArrayList.get(id);
         intent.putExtra("recipePassBack",singleRecipe);
+        intent.putExtra("isItNew", false);
         startActivity(intent);
     }
 }

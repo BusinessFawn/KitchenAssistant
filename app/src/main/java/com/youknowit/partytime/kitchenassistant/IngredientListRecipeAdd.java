@@ -18,6 +18,7 @@ public class IngredientListRecipeAdd extends AppCompatActivity implements Adapte
      ArrayList<Ingredient> ingredientsToPick = new ArrayList<>();
      ArrayList<Integer> ingredientIdsPassed = new ArrayList<>();
      Recipe currentRecipe = new Recipe();
+     boolean isItNew = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class IngredientListRecipeAdd extends AppCompatActivity implements Adapte
 
 
         Intent intent = getIntent();
+        isItNew = intent.getBooleanExtra("isItNew", false);
         String s = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         ArrayList<Ingredient> tempIngredients = new ArrayList<>(intentHandler.getLikeIngredientName(s));
         currentRecipe = getIntent().getParcelableExtra("recipePass");
@@ -53,6 +55,7 @@ public class IngredientListRecipeAdd extends AppCompatActivity implements Adapte
         intent.putExtra("id", passingID);
         intent.putExtra("recipePassBack",currentRecipe);
         intent.putExtra("ingredientIdsPassBack",ingredientIdsPassed);
+        intent.putExtra("isItNew",isItNew);
         startActivity(intent);
         finish();
 

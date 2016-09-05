@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DBHandlerNew extends SQLiteOpenHelper {
     // Database Version
@@ -51,13 +50,13 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 
         //Create Ingredient Table
         String CREATE_INGREDIENT_TABLE = "CREATE TABLE " + TABLE_INGREDIENTS + "("
-                + INGREDIENT_ID + " INTEGER PRIMARY KEY," + INGREDIENT_NAME + " TEXT,"
+                + INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + INGREDIENT_NAME + " TEXT,"
                 + INGREDIENT_CAPACITY + " INTEGER DEFAULT 0," + INGREDIENT_TYPE + " " +
                 "INTEGER DEFAULT 0," + INGREDIENT_EXPIRATION + " TEXT" + ")";
         db.execSQL(CREATE_INGREDIENT_TABLE);
         //Create Recipe Table
         String CREATE_RECIPE_TABLE = "CREATE TABLE " + TABLE_RECIPE + "("
-                + RECIPE_ID + " INTEGER PRIMARY KEY, " + RECIPE_NAME + " TEXT,"
+                + RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + RECIPE_NAME + " TEXT,"
                 + RECIPE_LAST_MADE + " TEXT," + RECIPE_SERVINGS_MADE + " INTEGER" + ")";
         db.execSQL(CREATE_RECIPE_TABLE);
         //Creating Recipe to Item Table
@@ -265,6 +264,18 @@ public class DBHandlerNew extends SQLiteOpenHelper {
             db.insert(TABLE_RECIPE_TO_INGREDIENT, null, values);
         }
         db.close(); // Closing database connection
+    }
+    public int getLastRecipeId() {
+        String selectQuery = "select * from sqlite_sequence where name=" + "'" + TABLE_RECIPE + "'";
+        int recipeId = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                recipeId = Integer.parseInt(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+        return recipeId;
     }
 
 
