@@ -110,6 +110,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 
         Ingredient ingredientList = new Ingredient(Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1), Integer.parseInt(cursor.getString(2)), Integer.parseInt(cursor.getString(3)), cursor.getString(4));
+        cursor.close();
+        db.close();
 // return ingredient
         return ingredientList;
     }
@@ -135,6 +137,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
                 ingredientList.add(ingredient);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
 
 // return ingredient list
         return ingredientList;
@@ -163,6 +167,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
 // Adding contact to list
                 ingredientList.add(ingredient);
             } while (cursor.moveToNext());
+            cursor.close();
+            db.close();
         }
 
 // return contact list
@@ -174,6 +180,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
+        db.close();
 
 // return count
         return cursor.getCount();
@@ -248,6 +255,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
                 recipeList.add(recipe);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
 
 // return recipe list
         return recipeList;
@@ -275,6 +284,7 @@ public class DBHandlerNew extends SQLiteOpenHelper {
                 recipeId = Integer.parseInt(cursor.getString(1));
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return recipeId;
     }
 
@@ -298,6 +308,8 @@ public class DBHandlerNew extends SQLiteOpenHelper {
                 recipeIngredientList.add(ingredient);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
 
 // return ingredient list
         return recipeIngredientList;
@@ -323,9 +335,21 @@ public class DBHandlerNew extends SQLiteOpenHelper {
                 recipeIngredientList.add(ingredient);
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        db.close();
 
 // return ingredient list
         return recipeIngredientList;
     }
+
+    //Delete Ingredients used in a particular Recipe. This is how I will update Ingredients in tandem with @addIngredientToRecipe
+    public void deleteIngredientsUsed(int recipeId) {
+        String deleteIngredients = "DELETE FROM " + TABLE_RECIPE_TO_INGREDIENT + "WHERE " + RECIPE_ID + " + " + recipeId;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(deleteIngredients, null);
+        cursor.close();
+        db.close();
+    }
+
 
 }

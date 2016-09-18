@@ -157,7 +157,7 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
     }
     private void setRecipeDate(int year, int month, int day) {
         datePickedString = year + "-" + month + "-" + day;
-        currentRecipe.setRecipeLastMade(datePickedString);
+//        currentRecipe.setRecipeLastMade(datePickedString);
     }
 
     //Button onClick Listener
@@ -235,13 +235,17 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 } else {
                     currentRecipe.setIngredientInventoryUsed(ingredientsIds);
                 }
+                if (isItNew) {
 
-                dbHandlerNew.addRecipe(currentRecipe);
-                currentRecipe.setRecipeId(dbHandlerNew.getLastRecipeId());
+                    dbHandlerNew.addRecipe(currentRecipe);
+                    currentRecipe.setRecipeId(dbHandlerNew.getLastRecipeId());
 
-                dbHandlerNew.addIngredientToRecipe(currentRecipe,
-                        currentRecipe.getIngredientIds(),
-                        currentRecipe.getIngredientInventoryUsed());
+                    dbHandlerNew.addIngredientToRecipe(currentRecipe,
+                            currentRecipe.getIngredientIds(),
+                            currentRecipe.getIngredientInventoryUsed());
+                } else {
+                    dbHandlerNew.updateRecipe(currentRecipe);
+                }
                 break;
 
         }
