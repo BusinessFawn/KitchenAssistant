@@ -343,11 +343,11 @@ public class DBHandlerNew extends SQLiteOpenHelper {
     }
 
     //Delete Ingredients used in a particular Recipe. This is how I will update Ingredients in tandem with @addIngredientToRecipe
+
     public void deleteIngredientsUsed(int recipeId) {
-        String deleteIngredients = "DELETE FROM " + TABLE_RECIPE_TO_INGREDIENT + "WHERE " + RECIPE_ID + " + " + recipeId;
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(deleteIngredients, null);
-        cursor.close();
+        db.delete(TABLE_RECIPE_TO_INGREDIENT, RECIPE_ID + " = ?",
+                new String[] { String.valueOf(recipeId) });
         db.close();
     }
 

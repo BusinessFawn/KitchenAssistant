@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.addRecipe:
                 //intent.putExtra(EXTRA_MESSAGE, "lolz");
+                intent.putExtra("isItNew", true);
                 startActivity(intent);
         }
     }
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     int i = Integer.parseInt(ingredientDelete.getText().toString());
-                    dbIngredient.deleteIngredient(dbIngredient.getIngredient(i));
+                    dbIngredient.deleteIngredientsUsed(i);
                     //dbIngredient.dropDB();
                     //dbIngredient.onCreate(dbIngredient.getWritableDatabase());
                     break;
