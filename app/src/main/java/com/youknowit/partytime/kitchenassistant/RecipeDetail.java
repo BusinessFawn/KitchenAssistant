@@ -73,9 +73,8 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
         itemList.setOnItemClickListener(this);
 
 
-        ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(
+        RecipeListAdapter<Ingredient> arrayAdapter = new RecipeListAdapter<>(
                 this,
-                android.R.layout.simple_list_item_1,
                 ingredientsAdded);
         itemList.setAdapter(arrayAdapter);
 
