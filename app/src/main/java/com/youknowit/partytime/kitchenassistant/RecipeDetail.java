@@ -34,10 +34,14 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
     private ArrayList<Integer> ingredientsIds = new ArrayList<>();
     private EditText editIngredientSearch;
     private Button buttonIngredientSearch;
+    private Button decrementInventory;
+    private Button incrementInventory;
     Integer commitRecipeServings = 0;
     String commitRecipeName;
     boolean isItNew = false;
     boolean addIngredients = false;
+    private static final int REQUEST_CODE = 10;
+    private ListView itemList;
     //TODO add ingredient selection/paring
     //TODO make layout more functional
     @Override
@@ -69,7 +73,7 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
         buttonIngredientSearch = (Button) findViewById(R.id.b_ingredient_search);
 
         //inflate list adapter
-        ListView itemList = (ListView) findViewById(R.id.recipeIngredientList);
+        itemList = (ListView) findViewById(R.id.recipeIngredientList);
         itemList.setOnItemClickListener(this);
 
 
@@ -81,33 +85,17 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
 
         //receive intent from ingredient list view
         Intent intent = getIntent();
-       /* @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        }*/
 
         if (getIntent().getExtras() != null) {
             isItNew = intent.getBooleanExtra("isItNew", false);
             if (intent.getParcelableExtra("recipePassBack") != null) {
                 currentRecipe = intent.getParcelableExtra("recipePassBack");
-                int id = intent.getIntExtra("id", 0);
-                if (id != 0) {
-                    if (intent.getIntegerArrayListExtra("ingredientIdsPassBack") != null) {
-                        ingredientsIds = intent.getIntegerArrayListExtra("ingredientIdsPassBack");
-                        ingredientsIds.add(id);
-                        for (int i = 0; i < ingredientsIds.size(); i++) {
-                            ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
-                            ingredientsAdded.add(ingredientToAdd);
-                        }
-                    }
-
-                } else {
-                    ingredientsIds = dbHandlerNew.getRecipeIngredientIds(currentRecipe.getRecipeId());
-                    for (int i = 0; i < ingredientsIds.size(); i++) {
-                        ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
-                        ingredientsAdded.add(ingredientToAdd);
-                    }
+                ingredientsIds = dbHandlerNew.getRecipeIngredientIds(currentRecipe.getRecipeId());
+                for (int i = 0; i < ingredientsIds.size(); i++) {
+                    ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(i));
+                    ingredientsAdded.add(ingredientToAdd);
                 }
+
 
                 recipeName.setText(currentRecipe.getRecipeName());
                 String servingsMadeString = String.valueOf(currentRecipe.getRecipeServingsMade());
@@ -119,6 +107,27 @@ public class RecipeDetail extends AppCompatActivity implements AdapterView.OnIte
                 ListViewSizer.setListViewHeightBasedOnChildren(itemList);
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent receivedIntent) {
+        ingredientsIds = receivedIntent.getIntegerArrayListExtra("ingredientIdsPassBack");
+        ingredientsIds.add(receivedIntent.getIntExtra("id",-1));
+
+        ingredientToAdd = dbHandlerNew.getIngredient(ingredientsIds.get(receivedIntent.getIntExtra("id",-1)));
+        ingredientsAdded.add(ingredientToAdd);
+        isItNew = receivedIntent.getBooleanExtra("isItNew", false);
+        currentRecipe = receivedIntent.getParcelableExtra("recipePassBack");
+        recipeName.setText(currentRecipe.getRecipeName());
+        String servingsMadeString = String.valueOf(currentRecipe.getRecipeServingsMade());
+        recipeServingsMade.setText(servingsMadeString);
+        recipeDateDisplay.setText(currentRecipe.getRecipeLastMade());
+
+        //showDate();
+        ListViewSizer.setListViewHeightBasedOnChildren(itemList);
+        System.out.println("it was onAct");
+
+
     }
 
 

@@ -12,13 +12,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class IngredientListRecipeAdd extends AppCompatActivity implements AdapterView.OnItemClickListener
- {
+{
 
-     Ingredient separateIngredients = new Ingredient();
-     ArrayList<Ingredient> ingredientsToPick = new ArrayList<>();
-     ArrayList<Integer> ingredientIdsPassed = new ArrayList<>();
-     Recipe currentRecipe = new Recipe();
-     boolean isItNew = false;
+    Ingredient separateIngredients = new Ingredient();
+    ArrayList<Ingredient> ingredientsToPick = new ArrayList<>();
+    ArrayList<Integer> ingredientIdsPassed = new ArrayList<>();
+    Recipe currentRecipe = new Recipe();
+    boolean isItNew = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class IngredientListRecipeAdd extends AppCompatActivity implements Adapte
         itemList.setAdapter(arrayAdapter);
     }
     public void onItemClick(AdapterView<?> l, View v, int id, long position) {
-     Intent intent = new Intent();
+        Intent intent = new Intent();
         intent.setClass(this, RecipeDetail.class);
         separateIngredients = ingredientsToPick.get(id);
         int passingID = separateIngredients.getIngredientId();
@@ -56,7 +56,8 @@ public class IngredientListRecipeAdd extends AppCompatActivity implements Adapte
         intent.putExtra("recipePassBack",currentRecipe);
         intent.putExtra("ingredientIdsPassBack",ingredientIdsPassed);
         intent.putExtra("isItNew",isItNew);
-        startActivity(intent);
+        //startActivity(intent);
+        setResult(RESULT_OK,intent);
         finish();
 
     }
