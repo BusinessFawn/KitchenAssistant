@@ -19,7 +19,6 @@ public class RecipeListAdapter<I> extends ArrayAdapter<Ingredient> {
     public RecipeListAdapter(Activity context, ArrayList<Ingredient> ingredientList) {
         super(context, 0, ingredientList);
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View listItemView = convertView;
